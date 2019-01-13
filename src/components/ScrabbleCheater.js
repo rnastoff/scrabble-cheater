@@ -10,6 +10,21 @@ import '../App.css';
 
 import {scrabbleDict} from '../dictionary/scrabble-dictionary.js';
 
+// -The letters are searched
+// -Added to tempArray
+// -Wrapped into an array of objects
+// -Sorted
+// -Then set to state
+//
+// **tempWords is being passed by reference from function to function,
+// that's why this works.
+//
+// -setState for the words only happens once at the very end
+// -There's no need to reset the confirmedWords in state,
+// because it's completely rewritten every new search
+
+
+
 class ScrabbleCheater extends React.Component {
 
     constructor() {
@@ -32,29 +47,29 @@ class ScrabbleCheater extends React.Component {
     };
 
     searchDictionary = () => {
-        this.setState({confirmedWords: []}, () => {
-            this.compareLetterSection();
-        });
+        this.compareLetterSection();
     };
 
-    compareLetterSection = () => {
+    compareLetterSection = () => { //tempWords is being passed by reference to all functions downstream
+        let tempWords = [];
         for (let letterSection = 0; letterSection < scrabbleDict.length; letterSection++) {
             let letter = scrabbleDict[letterSection][0][0];
             if (this.state.searchLetters.includes(letter)) {
-                this.compareWordsOfSection(letterSection);
+                this.compareWordsOfSection(letterSection, tempWords);
             }
         }
+        this.wrapWords(tempWords);
     };
 
-    compareWordsOfSection = (letterSection) => {
+    compareWordsOfSection = (letterSection, tempWords) => {
         for (let wordIndex = 0; wordIndex < scrabbleDict[letterSection].length; wordIndex++) {
             if (scrabbleDict[letterSection][wordIndex].length <= this.state.searchLetters.length) {
-                this.compareLettersOfWord(letterSection, wordIndex);
+                this.compareLettersOfWord(letterSection, wordIndex, tempWords);
             }
         }
     };
 
-    compareLettersOfWord = (letterSection, wordIndex) => {
+    compareLettersOfWord = (letterSection, wordIndex, tempWords) => {
         let word = scrabbleDict[letterSection][wordIndex];
         let tempLetters = this.state.searchLetters;
         for (let letterIndex = 1; letterIndex < word.length; letterIndex++) {
@@ -64,7 +79,7 @@ class ScrabbleCheater extends React.Component {
             }
         }
         if (this.checkForMultipleLetters(word)) {
-            this.addToConfirmedWords(word);
+            tempWords.push(word);
         }
     };
 
@@ -86,17 +101,16 @@ class ScrabbleCheater extends React.Component {
         }
     };
 
-    addToConfirmedWords = (word) => {
-        let points = this.getPointsForWord(word);
-        let wordObject = {
-            word: word,
-            points: points
-        };
-        this.setState(prevState => ({
-            confirmedWords: [...prevState.confirmedWords, wordObject]
-        }), () => {
-            this.handleSort(this.state.sortType[0]);
-        });
+    wrapWords = (tempWords) => {
+        let wrappedWords = [];
+        for (let i=0; i < tempWords.length; i++) {
+            let wordObject = {
+                word: tempWords[i],
+                points: this.getPointsForWord(tempWords[i])
+            };
+            wrappedWords.push(wordObject);
+        }
+        this.handleSort(this.state.sortType[0], wrappedWords);
     };
 
     getPointsForWord = (word) => {
@@ -110,7 +124,6 @@ class ScrabbleCheater extends React.Component {
             ["jx", 8],
             ["qz", 10]
         ];
-
         for (let i = 0; i < word.length; i++) {
             for (let j = 0; j < letters.length; j++) {
                 if (letters[j][0].includes(word[i])) {
@@ -127,10 +140,10 @@ class ScrabbleCheater extends React.Component {
         this.setState({dropdownVisibility: !this.state.dropdownVisibility});
     };
 
-    handleSort = (word) => {
-        if (word === "Length") this.sortByLength();
-        else if (word === "Points") this.sortByPoints();
-        else if (word === "Word") this.sortByWord();
+    handleSort = (word, wrappedWords) => {
+        if (word === "Length") this.sortByLength(wrappedWords);
+        else if (word === "Points") this.sortByPoints(wrappedWords);
+        else if (word === "Word") this.sortByWord(wrappedWords);
         this.setState({dropdownVisibility: false});
         this.arrangeSortDropdown(word);
     };
@@ -142,30 +155,30 @@ class ScrabbleCheater extends React.Component {
         this.setState({sortType: newSortType});
     };
 
-    sortByLength = () => {
-        let sorted = this.state.confirmedWords;
-        sorted.sort(function (a, b) {
+    sortByLength = (wrappedWords) => {
+        let wrappedWordsCopy = wrappedWords.slice(0);
+        wrappedWordsCopy.sort(function (a, b) {
             return b.word.length - a.word.length;
         });
-        this.setState({confirmedWords: sorted});
+        this.setState({confirmedWords: wrappedWordsCopy});
     };
 
-    sortByPoints = () => {
-        let sorted = this.state.confirmedWords;
-        sorted.sort(function (a, b) {
+    sortByPoints = (wrappedWords) => {
+        let wrappedWordsCopy = wrappedWords.slice(0);
+        wrappedWordsCopy.sort(function (a, b) {
             return b.points - a.points;
         });
-        this.setState({confirmedWords: sorted});
+        this.setState({confirmedWords: wrappedWordsCopy});
     };
 
-    sortByWord = () => {
-        let sorted = this.state.confirmedWords;
-        sorted.sort((a, b) => {
+    sortByWord = (wrappedWords) => {
+        let wrappedWordsCopy = wrappedWords.slice(0);
+        wrappedWordsCopy.sort((a, b) => {
             if (a.word < b.word) return -1;
             if (a.word > b.word) return 1;
             return 0;
         });
-        this.setState({confirmedWords: sorted});
+        this.setState({confirmedWords: wrappedWordsCopy});
     };
 
 

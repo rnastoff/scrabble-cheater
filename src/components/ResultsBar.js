@@ -21,12 +21,12 @@ class ResultsBar extends React.Component {
                     {this.props.dropdownVisibility &&
                         <div className="sort-dropdown">
                             <div className="sort-Two sortButton">
-                                <button onClick={() => this.props.handleSort(this.props.sortType[1])}>
+                                <button onClick={() => this.props.handleSort(this.props.sortType[1], this.props.confirmedWords)}>
                                     {this.props.sortType[1]}
                                 </button>
                             </div>
                             <div className="sort-Three sortButton">
-                                <button onClick={() => this.props.handleSort(this.props.sortType[2])}>
+                                <button onClick={() => this.props.handleSort(this.props.sortType[2], this.props.confirmedWords)}>
                                     {this.props.sortType[2]}
                                 </button>
                             </div>

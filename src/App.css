@@ -1,32 +1,359 @@
-.App {
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600');
+
+
+body {
+  background: #190406;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header-container {
+  background: #86131e;
+}
+.header {
+  margin: 0 auto;
+  padding: 20px 0 5px 0;
+  text-align: center;
+  width: 70%; /* change this in media queries */
+}
+.header img {
+  max-width: 100%;
+}
+
+.search-bar {
+  background: #3F0909;
+  box-sizing: border-box;
+  padding: 15px 0 1px 0;
+  width: 100%;
+}
+form {
+  font-size: 17px;
+  line-height: 17px;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+#input {
+  background: #FFF8F2;
+  border: none;
+  color: #190406;
+  display: inline-block;
+  font-weight: 500;
+  outline: none;
+  padding: 10px;
+  width: 45%; /* change this in media queries */
+}
+#search {
+  background: #86131e;
+  border: none;
+  color: #FFF8F2;
+  display: inline-block;
+  font-weight: 600;
+  padding: 10px;
+  transition: background 0.5s;
+}
+#search:hover {
+  background: #720E18;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+.search-criteria {
+  color: #FFF8F2;
+  padding: 10px;
+  text-align: center;
+}
+.error {
+  background: #86131e;
+  display: none;
+  font-size: 16px;
+  color: #F1F6FD;
+  padding: 10px;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/************************ RESULTS BAR AND SORT ***************************/
+.result-bar {
+  background: #86131e;
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 auto;
+  padding: 0 10px;
+  width: 100%; /* change in media query */
+}
+.result-bar-text {
+  color: #FFF8F2;
+  flex-grow: 2;
+  text-align: left;
+  padding: 17px 0;
 }
 
-.App-link {
-  color: #61dafb;
+
+.result-bar-sort {
+  color: #190406;
+  font-size: 17px;
+  padding: 12px 0;
+  position: relative;
+  width: 100px;
+}
+.sort-by {
+  color: #FFF8F2;
+  font-size: 15px;
+  font-weight: 500;
+  margin-right: 10px;
+  padding: 20px 0;
+}
+.sort-top {
+  background: #FFF8F2;
+  cursor: pointer;
+  padding: 7px 10px 7px 10px;
+  height: 20px;
+}
+.sort-type {
+  font-weight: 500;
+}
+svg {
+  float: right;
+  margin-top: 4px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+
+
+.sort-dropdown {
+  background: #FFF8F2;
+  box-sizing: border-box;
+  color: #190406;
+  font-weight: 500;
+  position: absolute;
+  text-align: left;
+  width: 100px;
+}
+.sort-dropdown-hide {
+  display: none;
+}
+.sort-Two {
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 3px 6px;
+}
+.sort-Three {
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 4px 7px 7px 7px;
+}
+.sort-Two button {
+  background: #fff8f2;
+  border: none;
+  color: #190406;
+  cursor: pointer;
+  display: block;
+  font-weight: 500;
+  padding: 4px;
+  text-align: left;
+  text-decoration: none;
+  top: 40px;
+  width: 100%;
+}
+.sort-Three button {
+  background: #fff8f2;
+  border: none;
+  color: #190406;
+  cursor: pointer;
+  display: block;
+  font-weight: 500;
+  padding: 4px;
+  text-align: left;
+  text-decoration: none;
+  top: 70px;
+  width: 100%;
+}
+.sort-Two button:hover {
+  color: #fff8f2;
+  background: #190406;
+}
+.sort-Three button:hover {
+  color: #fff8f2;
+  background: #190406;
+}
+
+
+
+
+/************************ RESULTS CATEGORY ***************************/
+.results-box {
+  margin: 0 auto;
+  margin-bottom: 100px;
+  width: 100%; /* change in media query */
+}
+
+
+.results-category-box {
+  background: #3F0909;
+  margin: 0 auto;
+  width: 100%; /* space of main box - change this in media queries */
+}
+.results-category {
+  border-bottom: 2px solid #190406;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 20px;
+  font-weight: 600;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+}
+.results-category:nth-of-type(2) {
+  display: none;
+}
+.results-category-word {
+  box-sizing: border-box;
+  color: #FFF8F2;
+  text-align: left;
+  width: 50%;
+}
+.results-category-points {
+  box-sizing: border-box;
+  color: #FFF8F2;
+  text-align: right;
+  width: 50%;
+}
+
+
+
+/************************ RESULTS ***************************/
+
+.results {
+  background: #FFF8F2;
+  margin: 0 auto;
+  width: 100%;
+}
+.column {
+  box-sizing: border-box;
+  width: 100%;
+}
+.column:first-of-type {
+
+}
+.result {
+  border-bottom: 2px solid #190406;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-between;
+  padding: 15px;
+}
+.word {
+  color: #190406;
+  font-weight: 500;
+}
+.score {
+  color: #190406;
+  font-weight: 600;
+}
+
+
+/************************ FOOTER ***************************/
+.footer {
+  background: #86131e;
+  bottom: 0;
+  color: #FFF8F2;
+  font-weight: 500;
+  left: 0;
+  margin: 0 auto;
+  padding: 10px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width: 600px) {
+  .result-bar {
+    width: 80%;
   }
-  to {
-    transform: rotate(360deg);
+  .results-box {
+    width: 80%;
   }
 }
+
+@media only screen and (min-width: 1000px) {
+  #input {
+    width: 30%;
+  }
+
+  .result-bar {
+    width: 50%;
+  }
+  .results-box {
+    width: 50%;
+  }
+  .results-category-box {
+    display: flex;
+    justify-content: space-between;
+  }
+  .results-category {
+    width: 50%;
+  }
+  .results-category:nth-of-type(1) {
+    border-right: 2px solid #190406;
+  }
+  .results-category:nth-of-type(2) {
+    border-left: 2px solid #190406;
+    display: flex;
+  }
+
+  .results {
+    display: flex;
+    justify-content: space-between;
+  }
+  .column {
+    width: 50%;
+  }
+  .result {
+    border: 2px solid #3f0909;
+  }
+
+}
+
+
+
+/*.App {*/
+  /*text-align: center;*/
+/*}*/
+
+/*.App-logo {*/
+  /*animation: App-logo-spin infinite 20s linear;*/
+  /*height: 40vmin;*/
+/*}*/
+
+/*.App-header {*/
+  /*background-color: #282c34;*/
+  /*min-height: 100vh;*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  /*font-size: calc(10px + 2vmin);*/
+  /*color: white;*/
+/*}*/
+
+/*.App-link {*/
+  /*color: #61dafb;*/
+/*}*/
+
+/*@keyframes App-logo-spin {*/
+  /*from {*/
+    /*transform: rotate(0deg);*/
+  /*}*/
+  /*to {*/
+    /*transform: rotate(360deg);*/
+  /*}*/
+/*}*/
